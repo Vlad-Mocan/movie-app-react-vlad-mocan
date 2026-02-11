@@ -1,0 +1,49 @@
+.container {
+  font-weight: 600;
+  padding: 1rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: "Inter", sans-serif;
+  text-decoration: none;
+  color: inherit;
+}
+
+.navGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.searchField {
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 3rem;
+  outline: none;
+}
+
+.navLink {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #fff;
+  bottom: -3px;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.navLink:hover::after {
+  opacity: 1;
+}
