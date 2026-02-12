@@ -18,13 +18,6 @@
   gap: 1rem;
 }
 
-.searchField {
-  padding: 0.4rem 1rem;
-  border: none;
-  border-radius: 3rem;
-  outline: none;
-}
-
 .navLink {
   position: relative;
   text-decoration: none;
@@ -46,4 +39,33 @@
 
 .navLink:hover::after {
   opacity: 1;
+}
+
+.searchContainer {
+  position: relative;
+}
+
+.searchField {
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 3rem;
+  outline: none;
+  padding-left: 2rem;
+}
+
+.searchIcon {
+  cursor: pointer;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translate(0, -50%);
+
+  z-index: 2;
+  transition: fill 0.3s;
+}
+
+.searchButton {
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
