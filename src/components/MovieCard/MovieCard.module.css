@@ -1,5 +1,6 @@
 .movieCard {
-  cursor: pointer;
+  /* cursor: pointer; */
+  position: relative;
 
   display: flex;
   flex-direction: column;
@@ -13,7 +14,7 @@
 }
 
 .movieCard:hover {
-  transform: scale(1.01);
+  transform: scale(1.005);
 }
 
 .image {
@@ -45,4 +46,13 @@
 .placementNumber {
   font-weight: 500;
   font-size: 0.7rem;
+}
+
+.movieOptionsButton {
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
