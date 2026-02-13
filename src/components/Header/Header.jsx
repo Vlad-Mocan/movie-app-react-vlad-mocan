@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./Header.module.css";
 
-export default function Header() {
+export default function Header({ searchQuery, setSearchQuery }) {
   const [isInputSelected, setIsInputSelected] = useState(false);
 
   return (
@@ -40,15 +40,14 @@ export default function Header() {
           type="search"
           name="searchInput"
           id="searchInput"
+          value={searchQuery}
           className={styles.searchField}
           style={{
             transition: "opacity 0.3s ease",
             opacity: isInputSelected ? "1" : "0",
             pointerEvents: isInputSelected ? "auto" : "none",
           }}
-          onChange={(e) => {
-            console.log(e.target.value);
-          }}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
     </header>
