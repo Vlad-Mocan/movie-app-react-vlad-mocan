@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import styles from "./WatchlistSelector.module.css";
-import { useWatchlists } from "../../hooks/useWatchLists";
+// import { useWatchlists } from "../../hooks/useWatchLists";
 
 export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
-  const { getItemsFromKey, addValueToEntry } = useWatchlists();
+  //   const { getItemsFromKey, addValueToEntry } = useWatchlists();
 
   useEffect(() => {
-    console.log(addValueToEntry("KEY", "test"));
-    console.log(getItemsFromKey("KEY"));
+    console.log("Test");
+    // console.log(addValueToEntry("KEY", "test"));
+    // console.log(getItemsFromKey("KEY"));
   });
 
   useEffect(() => {
