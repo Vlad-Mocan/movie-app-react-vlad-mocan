@@ -4,3 +4,9 @@
 
   gap: 2rem;
 }
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
