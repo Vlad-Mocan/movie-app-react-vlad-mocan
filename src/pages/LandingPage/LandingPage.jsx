@@ -34,6 +34,10 @@ export default function LandingPage() {
     );
   }
 
+  const handleResetMovie = () => {
+    setSelectedMovie(null);
+  };
+
   return (
     <>
       <section className={styles.container}>
@@ -46,7 +50,10 @@ export default function LandingPage() {
         />
       </section>
 
-      <WatchlistSelector selectedMovie={selectedMovie} />
+      <WatchlistSelector
+        selectedMovie={selectedMovie}
+        handleResetMovie={handleResetMovie}
+      />
     </>
   );
 }

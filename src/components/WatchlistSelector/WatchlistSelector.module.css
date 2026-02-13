@@ -14,13 +14,24 @@
 
   transform: translate(105%, -50%);
   transition: transform 0.3s ease;
+  pointer-events: none;
 }
 
 .active {
   transform: translate(0, -50%);
+  pointer-events: auto;
 }
 
 .listLabel {
   font-size: 1.5rem;
   font-weight: 200;
+}
+
+.closeIcon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }
