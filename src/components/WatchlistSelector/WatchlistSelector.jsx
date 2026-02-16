@@ -5,8 +5,6 @@ import { useWatchlists } from "../../hooks/useWatchLists";
 export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
   const { watchlistNames, addMovieToList } = useWatchlists("watchlists");
 
-  console.log(watchlistNames);
-
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Escape") handleResetMovie();

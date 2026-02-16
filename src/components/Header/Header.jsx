@@ -12,10 +12,14 @@ export default function Header({ searchQuery, setSearchQuery }) {
       <nav>
         <ul className={styles.navGroup}>
           <li>
-            <a className={styles.navLink}>movies</a>
+            <a className={styles.navLink} href="/">
+              movies
+            </a>
           </li>
           <li>
-            <a className={styles.navLink}>lists</a>
+            <a className={styles.navLink} href="/lists">
+              lists
+            </a>
           </li>
         </ul>
       </nav>
