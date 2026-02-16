@@ -1,35 +1,69 @@
-export function useWatchlists() {
-  function getItemsFromKey(key) {
+import { useEffect, useState } from "react";
+
+export function useWatchlists(key = "watchlists") {
+  const [watchlists, setWatchlists] = useState(() => {
     try {
       const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : [];
+
+      return item ? JSON.parse(item) : {};
     } catch (error) {
-      console.error("Could not get items from localStorage:", error);
-      return [];
+      console.error("Error parsing watchlists:", error);
+
+      return {};
     }
-  }
+  });
 
-  function addValueToEntry(key, movie) {
-    try {
-      const currentList = getItemsFromKey(key);
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(watchlists));
+  }, [key, watchlists]);
 
-      currentList.push(movie);
+  const createList = (listName) => {
+    if (!listName?.trim()) return;
+    setWatchlists((prev) => ({
+      ...prev,
+      [listName]: prev[listName] || [],
+    }));
+  };
 
-      localStorage.setItem(key, JSON.stringify(currentList));
+  const addMovieToList = (listName, movie) => {
+    if (!movie || !listName?.trim()) return;
 
-      return movie;
-    } catch (error) {
-      console.error("Could not push items to localStorage:", error);
-    }
-  }
+    setWatchlists((prev) => {
+      const currentList = prev[listName] || [];
 
-  function removeValueFromStorage(key, value) {
-    console.log(key, value);
-  }
+      const isDuplicate = currentList.some(
+        (m) => m.toLowerCase() === movie.toLowerCase(),
+      );
+
+      if (isDuplicate) return prev;
+
+      return {
+        ...prev,
+        [listName]: [...currentList, movie],
+      };
+    });
+  };
+
+  const removeMovieFromList = (listName, movie) => {
+    setWatchlists((prev) => {
+      const currentList = prev[listName] || [];
+
+      const updatedList = currentList.filter(
+        (m) => m.toLowerCase() !== movie.toLowerCase(),
+      );
+
+      return {
+        ...prev,
+        [listName]: updatedList,
+      };
+    });
+  };
 
   return {
-    getItemsFromKey,
-    addValueToEntry,
-    removeValueFromStorage,
+    watchlists,
+    watchlistNames: Object.keys(watchlists),
+    createList,
+    addMovieToList,
+    removeMovieFromList,
   };
 }

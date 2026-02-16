@@ -1,15 +1,11 @@
 import { useEffect } from "react";
 import styles from "./WatchlistSelector.module.css";
-// import { useWatchlists } from "../../hooks/useWatchLists";
+import { useWatchlists } from "../../hooks/useWatchLists";
 
 export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
-  //   const { getItemsFromKey, addValueToEntry } = useWatchlists();
+  const { watchlistNames, addMovieToList } = useWatchlists("watchlists");
 
-  useEffect(() => {
-    console.log("Test");
-    // console.log(addValueToEntry("KEY", "test"));
-    // console.log(getItemsFromKey("KEY"));
-  });
+  console.log(watchlistNames);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -25,25 +21,53 @@ export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
     };
   }, [selectedMovie, handleResetMovie]);
 
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const selectedList = formData.get("list");
+
+    if (selectedList && selectedMovie) {
+      addMovieToList(selectedList, selectedMovie);
+
+      e.currentTarget.reset();
+      handleResetMovie();
+    }
+  }
+
   return (
-    <div
-      className={`${styles.container} ${selectedMovie ? styles.active : ""}`}
-    >
-      <label htmlFor="list-input" className={styles.listLabel}>
-        please select the list you wish to add your movie to:{" "}
-        <span>{selectedMovie}</span>
-      </label>
-      <input list="list-collection" id="list-input" name="list"></input>
+    <>
+      <form
+        className={`${styles.container} ${selectedMovie ? styles.active : ""}`}
+        onSubmit={handleSubmit}
+      >
+        <label htmlFor="list-input" className={styles.listLabel}>
+          please select the list <br /> you wish to add your movie to:{" "}
+        </label>
+        <input
+          list="list-collection"
+          id="list-input"
+          name="list"
+          className={styles.watchlistInput}
+        ></input>
 
-      <datalist id="list-collection">
-        <option value="movies I liked in 2025"></option>
-        <option value="movies to watch in 2026"></option>
-        <option value="create new list"></option>
-      </datalist>
+        <datalist id="list-collection">
+          {watchlistNames.map((name) => (
+            <option key={name} value={name} />
+          ))}
+        </datalist>
 
-      <button className={styles.closeIcon} onClick={handleResetMovie}>
-        &#10005;
-      </button>
-    </div>
+        <button type="submit">add</button>
+
+        <button
+          type="button"
+          name="submit-btn"
+          className={styles.closeIcon}
+          onClick={handleResetMovie}
+        >
+          &#10005;
+        </button>
+      </form>
+    </>
   );
 }
