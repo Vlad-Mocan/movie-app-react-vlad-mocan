@@ -14,11 +14,17 @@ export default function MovieList({ moviesData, setSelectedMovie }) {
 
   return (
     <ul className={styles.moviesContainer}>
-      {filteredMovies.map((movie) => (
-        <li key={movie.id} className={styles.listItem}>
-          <MovieCard movieData={movie} setSelectedMovie={setSelectedMovie} />
-        </li>
-      ))}
+      {filteredMovies.length ? (
+        filteredMovies.map((movie) => (
+          <li key={movie.id} className={styles.listItem}>
+            <MovieCard movieData={movie} setSelectedMovie={setSelectedMovie} />
+          </li>
+        ))
+      ) : (
+        <p className={styles.noMoviesFoundParagraph}>
+          no movies found with the specified search
+        </p>
+      )}
     </ul>
   );
 }

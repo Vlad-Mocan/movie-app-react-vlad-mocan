@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./SearchInput.module.css";
 import { useSearchParams } from "react-router-dom";
 
@@ -6,17 +6,21 @@ export default function SearchInput() {
   const [isInputSelected, setIsInputSelected] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const searchQuery = searchParams.get("search") || "";
+  const [searchInputValue, setSearchInputValue] = useState(
+    searchParams.get("search") || "",
+  );
 
-  const handleSearchInputChange = (event) => {
-    const value = event.target.value;
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchInputValue) {
+        setSearchParams({ search: searchInputValue });
+      } else {
+        setSearchParams({});
+      }
+    }, 500);
 
-    if (value) {
-      setSearchParams({ search: value });
-    } else {
-      setSearchParams({});
-    }
-  };
+    return () => clearTimeout(timer);
+  }, [searchInputValue, setSearchParams]);
 
   return (
     <div className={styles.searchContainer}>
@@ -40,14 +44,14 @@ export default function SearchInput() {
         type="search"
         name="searchInput"
         id="searchInput"
-        value={searchQuery}
+        value={searchInputValue}
         className={styles.searchField}
         style={{
           transition: "opacity 0.3s ease",
           opacity: isInputSelected ? "1" : "0",
           pointerEvents: isInputSelected ? "auto" : "none",
         }}
-        onChange={handleSearchInputChange}
+        onChange={(e) => setSearchInputValue(e.target.value)}
       />
     </div>
   );
