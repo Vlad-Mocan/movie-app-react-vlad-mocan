@@ -13,15 +13,13 @@ export default function ListsPage() {
       </h1>
       <article className={styles.container}>
         <ul className={styles.listContainer}>
-          {watchlistNames.map((nameOfWatchlistKey, index) => (
-            <>
-              <li key={index}>
-                <ListCard
-                  watchlist={nameOfWatchlistKey}
-                  watchlistsContent={watchlists[nameOfWatchlistKey]}
-                />
-              </li>
-            </>
+          {watchlistNames.map((nameOfWatchlistKey) => (
+            <li key={nameOfWatchlistKey}>
+              <ListCard
+                watchlist={nameOfWatchlistKey}
+                watchlistsContent={watchlists[nameOfWatchlistKey]}
+              />
+            </li>
           ))}
         </ul>
       </article>
