@@ -1,0 +1,17 @@
+.container {
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.numberOfWatchlistsParagraph {
+  font-weight: 100;
+  font-size: 3rem;
+  padding: 1rem;
+}
+
+.listContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+
+  gap: 2rem;
+}

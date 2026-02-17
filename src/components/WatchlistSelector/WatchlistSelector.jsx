@@ -1,11 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./WatchlistSelector.module.css";
 import { useWatchlists } from "../../hooks/useWatchLists";
 
 export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
   const { watchlistNames, addMovieToList } = useWatchlists("watchlists");
-
-  console.log(watchlistNames);
+  const [selectedList, setSelectedList] = useState("");
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -24,8 +23,7 @@ export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const selectedList = formData.get("list");
+    console.log(typeof selectedList);
 
     if (selectedList && selectedMovie) {
       addMovieToList(selectedList, selectedMovie);
@@ -49,6 +47,8 @@ export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
           id="list-input"
           name="list"
           className={styles.watchlistInput}
+          value={selectedList}
+          onChange={(e) => setSelectedList(e.target.value)}
         ></input>
 
         <datalist id="list-collection">

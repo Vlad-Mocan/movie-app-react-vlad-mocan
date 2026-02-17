@@ -17,14 +17,6 @@ export function useWatchlists(key = "watchlists") {
     localStorage.setItem(key, JSON.stringify(watchlists));
   }, [key, watchlists]);
 
-  const createList = (listName) => {
-    if (!listName?.trim()) return;
-    setWatchlists((prev) => ({
-      ...prev,
-      [listName]: prev[listName] || [],
-    }));
-  };
-
   const addMovieToList = (listName, movie) => {
     if (!movie || !listName?.trim()) return;
 
@@ -62,8 +54,8 @@ export function useWatchlists(key = "watchlists") {
   return {
     watchlists,
     watchlistNames: Object.keys(watchlists),
-    createList,
     addMovieToList,
     removeMovieFromList,
+    watchlistsContent: Object.values(watchlists),
   };
 }

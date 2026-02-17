@@ -10,3 +10,9 @@
   align-items: center;
   justify-content: center;
 }
+
+.noMoviesFoundParagraph {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 200;
+}
