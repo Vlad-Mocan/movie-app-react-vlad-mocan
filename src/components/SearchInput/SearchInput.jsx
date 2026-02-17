@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
 import styles from "./SearchInput.module.css";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function SearchInput() {
   const [isInputSelected, setIsInputSelected] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [searchInputValue, setSearchInputValue] = useState(
     searchParams.get("search") || "",
   );
 
   useEffect(() => {
+    if (searchInputValue === (searchParams.get("search") || "")) return;
+
     const timer = setTimeout(() => {
-      if (searchInputValue) {
-        setSearchParams({ search: searchInputValue });
-      } else {
-        setSearchParams({});
-      }
+      const path = searchInputValue ? `/?search=${searchInputValue}` : `/`;
+      navigate(path, { replace: true });
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [searchInputValue, setSearchParams]);
+  }, [searchInputValue, navigate, searchParams]);
 
   return (
     <div className={styles.searchContainer}>
