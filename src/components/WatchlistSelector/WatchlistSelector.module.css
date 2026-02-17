@@ -42,3 +42,25 @@
   padding: 5px 8px;
   border: 0.3px solid #000;
 }
+
+.submitBtn {
+  padding: 5px 10px;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 1px;
+
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.submitBtn:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.infoText {
+  font-weight: 500;
+}
