@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function useWatchlists(key = "watchlists") {
   const [watchlists, setWatchlists] = useState(() => {
@@ -51,11 +51,21 @@ export function useWatchlists(key = "watchlists") {
     });
   };
 
+  const getWatchlistsOfMovie = useCallback(
+    (movie) => {
+      return Object.entries(watchlists)
+        .filter(([, movies]) => movies.includes(movie))
+        .map(([name]) => name);
+    },
+    [watchlists],
+  );
+
   return {
     watchlists,
     watchlistNames: Object.keys(watchlists),
     addMovieToList,
     removeMovieFromList,
-    watchlistsContent: Object.values(watchlists),
+    moviesSavedInWatchlists: Object.values(watchlists).flat(),
+    getWatchlistsOfMovie,
   };
 }

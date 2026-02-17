@@ -3,8 +3,13 @@ import styles from "./WatchlistSelector.module.css";
 import { useWatchlists } from "../../hooks/useWatchLists";
 
 export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
-  const { watchlistNames, addMovieToList } = useWatchlists("watchlists");
+  const { watchlistNames, addMovieToList, getWatchlistsOfMovie } =
+    useWatchlists("watchlists");
   const [selectedList, setSelectedList] = useState("");
+
+  const currentMovieWatchlists = selectedMovie
+    ? getWatchlistsOfMovie(selectedMovie)
+    : [];
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -28,6 +33,7 @@ export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
     if (selectedList && selectedMovie) {
       addMovieToList(selectedList, selectedMovie);
 
+      setSelectedList("");
       e.currentTarget.reset();
       handleResetMovie();
     }
@@ -39,8 +45,13 @@ export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
         className={`${styles.container} ${selectedMovie ? styles.active : ""}`}
         onSubmit={handleSubmit}
       >
+        {currentMovieWatchlists.length > 0 && (
+          <p className={styles.infoText}>
+            already in: {currentMovieWatchlists.join(", ")}
+          </p>
+        )}
         <label htmlFor="list-input" className={styles.listLabel}>
-          please select the list <br /> you wish to add your movie to:{" "}
+          please select the list <br /> you wish to add your movie to:
         </label>
         <input
           list="list-collection"
@@ -52,12 +63,16 @@ export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
         ></input>
 
         <datalist id="list-collection">
-          {watchlistNames.map((name) => (
-            <option key={name} value={name} />
-          ))}
+          {watchlistNames
+            .filter((name) => !currentMovieWatchlists.includes(name))
+            .map((name) => (
+              <option key={name} value={name} />
+            ))}
         </datalist>
 
-        <button type="submit">add</button>
+        <button className={styles.submitBtn} type="submit">
+          add
+        </button>
 
         <button
           type="button"
