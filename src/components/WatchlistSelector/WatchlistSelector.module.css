@@ -61,6 +61,21 @@
   color: #000;
 }
 
-.infoText {
+.statusContainer {
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.watchlistItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.watchlistItem:hover {
+  text-decoration: line-through;
 }

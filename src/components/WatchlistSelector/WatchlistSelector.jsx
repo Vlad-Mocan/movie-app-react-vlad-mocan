@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import styles from "./WatchlistSelector.module.css";
-import { useWatchlists } from "../../hooks/useWatchLists";
+import useWatchlist from "../../context/useWatchlist";
 
 export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
-  const { watchlistNames, addMovieToList, getWatchlistsOfMovie } =
-    useWatchlists("watchlists");
+  const {
+    watchlistNames,
+    addMovieToList,
+    getWatchlistsOfMovie,
+    removeMovieFromList,
+  } = useWatchlist();
   const [selectedList, setSelectedList] = useState("");
 
   const currentMovieWatchlists = selectedMovie
@@ -28,8 +32,6 @@ export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    console.log(typeof selectedList);
-
     if (selectedList && selectedMovie) {
       addMovieToList(selectedList, selectedMovie);
 
@@ -46,9 +48,18 @@ export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
         onSubmit={handleSubmit}
       >
         {currentMovieWatchlists.length > 0 && (
-          <p className={styles.infoText}>
-            already in: {currentMovieWatchlists.join(", ")}
-          </p>
+          <div className={styles.statusContainer}>
+            <p>already in watchlists:</p>
+            {currentMovieWatchlists.map((watchlist) => (
+              <p
+                key={watchlist}
+                className={styles.watchlistItem}
+                onClick={() => removeMovieFromList(watchlist, selectedMovie)}
+              >
+                {watchlist}
+              </p>
+            ))}
+          </div>
         )}
         <label htmlFor="list-input" className={styles.listLabel}>
           please select the list <br /> you wish to add your movie to:

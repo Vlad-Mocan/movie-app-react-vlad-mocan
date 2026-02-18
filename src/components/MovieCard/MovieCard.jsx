@@ -1,14 +1,21 @@
+import { useMemo } from "react";
+import useWatchlist from "../../context/useWatchlist";
 import { BookmarkFilled, BookmarkOutline } from "../ui/Boomarks/Bookmarks";
 import styles from "./MovieCard.module.css";
 
-export default function MovieCard({
-  movieData,
-  setSelectedMovie,
-  isSavedInWatchlist,
-}) {
-  if (!movieData) return null;
+export default function MovieCard({ movie, setSelectedMovie }) {
+  const { id, title, rating, genre } = movie;
 
-  const { id, title, rating, genre } = movieData;
+  const { moviesSavedInWatchlists } = useWatchlist();
+
+  const isSavedInWatchlist = useMemo(() => {
+    return moviesSavedInWatchlists.some(
+      (movieInWatchlist) =>
+        movieInWatchlist.toLowerCase() === title.toLowerCase(),
+    );
+  }, [moviesSavedInWatchlists, title]);
+
+  if (!movie) return null;
 
   return (
     <>
