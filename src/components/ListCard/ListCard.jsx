@@ -16,7 +16,6 @@ export default function ListCard({ watchlist, watchlistsContent }) {
             {name}
           </span>
         ))}
-
         {extraCount > 0 && <span>...and {extraCount} more</span>}
       </div>
     </div>

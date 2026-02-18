@@ -8,9 +8,15 @@ export default function ListsPage() {
 
   return (
     <>
-      <h1 className={styles.numberOfWatchlistsParagraph}>
-        you have saved {watchlistNames.length} watchlists:
-      </h1>
+      {watchlistNames.length ? (
+        <h1 className={styles.numberOfWatchlistsParagraph}>
+          you have saved {watchlistNames.length} watchlists:
+        </h1>
+      ) : (
+        <h1 className={styles.numberOfWatchlistsParagraph}>
+          you have not saved any watchlist yet
+        </h1>
+      )}
       <article className={styles.container}>
         <ul className={styles.listContainer}>
           {watchlistNames.map((nameOfWatchlistKey) => (
