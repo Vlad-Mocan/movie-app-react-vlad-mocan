@@ -1,0 +1,25 @@
+.container {
+  margin-top: 2rem;
+  padding: 1rem;
+
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.errorText {
+  color: #ff0000;
+  font-weight: 100;
+  font-size: 3rem;
+}
+
+.movieName {
+  font-size: 5rem;
+  font-weight: 100;
+  text-transform: uppercase;
+}
+
+.details {
+  font-size: 3rem;
+  font-weight: 100;
+}

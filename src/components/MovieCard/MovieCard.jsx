@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { Link } from "react-router-dom";
 import useWatchlist from "../../context/useWatchlist";
 import { BookmarkFilled, BookmarkOutline } from "../ui/Boomarks/Bookmarks";
 import styles from "./MovieCard.module.css";
@@ -8,17 +8,15 @@ export default function MovieCard({ movie, setSelectedMovie }) {
 
   const { moviesSavedInWatchlists } = useWatchlist();
 
-  const isSavedInWatchlist = useMemo(() => {
-    return moviesSavedInWatchlists.some(
-      (movieInWatchlist) =>
-        movieInWatchlist.toLowerCase() === title.toLowerCase(),
-    );
-  }, [moviesSavedInWatchlists, title]);
+  const isSavedInWatchlist = moviesSavedInWatchlists.some(
+    (movieInWatchlist) =>
+      movieInWatchlist.toLowerCase() === title.toLowerCase(),
+  );
 
   if (!movie) return null;
 
   return (
-    <>
+    <Link to={`/movie/${id}`}>
       <article className={styles.movieCard}>
         <div className={styles.movieProperties}>
           <p className={styles.placementNumber}>[{id}]</p>
@@ -43,6 +41,6 @@ export default function MovieCard({ movie, setSelectedMovie }) {
           loading="lazy"
         />
       </article>
-    </>
+    </Link>
   );
 }
