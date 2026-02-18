@@ -15,6 +15,12 @@ export default function MovieCard({ movie, setSelectedMovie }) {
 
   if (!movie) return null;
 
+  const handleWatchlistClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setSelectedMovie(title);
+  };
+
   return (
     <Link to={`/movie/${id}`}>
       <article className={styles.movieCard}>
@@ -29,7 +35,7 @@ export default function MovieCard({ movie, setSelectedMovie }) {
 
           <button
             className={styles.movieOptionsButton}
-            onClick={() => setSelectedMovie(title)}
+            onClick={handleWatchlistClick}
           >
             {isSavedInWatchlist ? <BookmarkFilled /> : <BookmarkOutline />}
           </button>
