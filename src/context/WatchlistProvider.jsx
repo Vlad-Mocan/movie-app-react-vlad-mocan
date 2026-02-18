@@ -1,6 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { WatchlistContext } from "./WatchlistContext";
 
-export function useWatchlists(key = "watchlists") {
+const key = "watchlists";
+
+export default function WatchlistProvider({ children }) {
   const [watchlists, setWatchlists] = useState(() => {
     try {
       const item = localStorage.getItem(key);
@@ -15,7 +18,7 @@ export function useWatchlists(key = "watchlists") {
 
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(watchlists));
-  }, [key, watchlists]);
+  }, [watchlists]);
 
   const addMovieToList = (listName, movie) => {
     if (!movie || !listName?.trim()) return;
@@ -60,12 +63,22 @@ export function useWatchlists(key = "watchlists") {
     [watchlists],
   );
 
-  return {
-    watchlists,
-    watchlistNames: Object.keys(watchlists),
-    addMovieToList,
-    removeMovieFromList,
-    moviesSavedInWatchlists: Object.values(watchlists).flat(),
-    getWatchlistsOfMovie,
-  };
+  const moviesSavedInWatchlists = useMemo(() => {
+    return Object.values(watchlists).flat();
+  }, [watchlists]);
+
+  return (
+    <WatchlistContext.Provider
+      value={{
+        watchlists,
+        watchlistNames: Object.keys(watchlists),
+        addMovieToList,
+        removeMovieFromList,
+        moviesSavedInWatchlists,
+        getWatchlistsOfMovie,
+      }}
+    >
+      {children}
+    </WatchlistContext.Provider>
+  );
 }

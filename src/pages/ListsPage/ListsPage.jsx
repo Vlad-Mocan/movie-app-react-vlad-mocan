@@ -1,10 +1,10 @@
 import styles from "./ListsPage.module.css";
 
-import { useWatchlists } from "../../hooks/useWatchLists";
 import ListCard from "../../components/ListCard/ListCard";
+import useWatchlist from "../../context/useWatchlist";
 
 export default function ListsPage() {
-  const { watchlistNames, watchlists } = useWatchlists();
+  const { watchlistNames, watchlists } = useWatchlist();
 
   return (
     <>
