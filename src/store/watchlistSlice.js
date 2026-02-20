@@ -31,23 +31,29 @@ export const watchlistSlice = createSlice({
 
       if (!isDuplicate) {
         state[listName].push(movie);
+
+        try {
+          localStorage.setItem(KEY, JSON.stringify(state));
+        } catch (error) {
+          console.error("Could not save to localStorage.", error);
+        }
       }
     },
 
     removeMovieFromList: (state, action) => {
       const { listName, movie } = action.payload;
 
-      if (!movie || !listName?.trim()) return;
+      if (!movie || !state[listName]) return;
 
-      if (!state[listName]) {
-        state[listName] = [];
-      }
-
-      const updatedList = state[listName].filter(
+      state[listName] = state[listName].filter(
         (m) => m.toLowerCase() !== movie.toLowerCase(),
       );
 
-      state[listName] = updatedList;
+      try {
+        localStorage.setItem(KEY, JSON.stringify(state));
+      } catch (error) {
+        console.error("Could not save to localStorage.", error);
+      }
     },
   },
 });
@@ -55,10 +61,8 @@ export const watchlistSlice = createSlice({
 export const { addMovieToList, removeMovieFromList } = watchlistSlice.actions;
 export default watchlistSlice.reducer;
 
-export const selectWatchlists = (state) => state?.watchlists;
-
 export const selectWatchlistsOfMovie = createSelector(
-  [selectWatchlists, (state, movie) => movie],
+  [(state) => state.watchlists, (_, movie) => movie],
   (watchlists, movie) => {
     if (!movie) return [];
     return Object.entries(watchlists)
@@ -70,11 +74,11 @@ export const selectWatchlistsOfMovie = createSelector(
 );
 
 export const selectMoviesSavedInWatchlists = createSelector(
-  [selectWatchlists],
+  [(state) => state.watchlists],
   (watchlists) => Object.values(watchlists).flat(),
 );
 
 export const selectWatchlistNames = createSelector(
-  [selectWatchlists],
+  [(state) => state.watchlists],
   (watchlists) => Object.keys(watchlists),
 );

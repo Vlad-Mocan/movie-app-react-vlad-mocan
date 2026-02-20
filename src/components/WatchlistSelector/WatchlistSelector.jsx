@@ -16,8 +16,6 @@ export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
     selectWatchlistsOfMovie(state, selectedMovie),
   );
 
-  console.log(watchlistNames, currentMovieWatchlists);
-
   const [selectedList, setSelectedList] = useState("");
 
   useEffect(() => {
@@ -93,9 +91,10 @@ export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
         <datalist id="list-collection">
           {watchlistNames
             .filter((name) => !currentMovieWatchlists.includes(name))
-            .map((name) => (
-              <option key={name} value={name} />
-            ))}
+            .map((name) => {
+              console.log(name);
+              return <option key={name} value={name} />;
+            })}
         </datalist>
 
         <button className={styles.submitBtn} type="submit">
