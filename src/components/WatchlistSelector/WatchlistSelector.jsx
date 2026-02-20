@@ -1,19 +1,24 @@
 import { useEffect, useState } from "react";
 import styles from "./WatchlistSelector.module.css";
-import useWatchlist from "../../context/useWatchlist";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addMovieToList,
+  removeMovieFromList,
+  selectWatchlistNames,
+  selectWatchlistsOfMovie,
+} from "../../store/watchlistSlice";
 
 export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
-  const {
-    watchlistNames,
-    addMovieToList,
-    getWatchlistsOfMovie,
-    removeMovieFromList,
-  } = useWatchlist();
-  const [selectedList, setSelectedList] = useState("");
+  const dispatch = useDispatch();
 
-  const currentMovieWatchlists = selectedMovie
-    ? getWatchlistsOfMovie(selectedMovie)
-    : [];
+  const watchlistNames = useSelector(selectWatchlistNames);
+  const currentMovieWatchlists = useSelector((state) =>
+    selectWatchlistsOfMovie(state, selectedMovie),
+  );
+
+  console.log(watchlistNames, currentMovieWatchlists);
+
+  const [selectedList, setSelectedList] = useState("");
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -33,7 +38,12 @@ export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
     e.preventDefault();
 
     if (selectedList && selectedMovie) {
-      addMovieToList(selectedList, selectedMovie);
+      dispatch(
+        addMovieToList({
+          listName: selectedList,
+          movie: selectedMovie,
+        }),
+      );
 
       setSelectedList("");
       e.currentTarget.reset();
@@ -54,7 +64,14 @@ export default function WatchlistSelector({ selectedMovie, handleResetMovie }) {
               <p
                 key={watchlist}
                 className={styles.watchlistItem}
-                onClick={() => removeMovieFromList(watchlist, selectedMovie)}
+                onClick={() =>
+                  dispatch(
+                    removeMovieFromList({
+                      listName: watchlist,
+                      movie: selectedMovie,
+                    }),
+                  )
+                }
               >
                 {watchlist}
               </p>

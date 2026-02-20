@@ -4,10 +4,12 @@ import Loader from "../../components/ui/Loader/Loader";
 import WatchlistSelector from "../../components/WatchlistSelector/WatchlistSelector";
 import { useFetch } from "../../hooks/useFetch";
 import styles from "./LandingPage.module.css";
+import { useSearchParams } from "react-router-dom";
 
 export default function LandingPage() {
   const { data: moviesData, isLoading, error } = useFetch("/movies.json");
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [searchParams] = useSearchParams();
 
   if (isLoading)
     return (
@@ -38,18 +40,32 @@ export default function LandingPage() {
     setSelectedMovie(null);
   };
 
+  const searchQuery = searchParams.get("search")?.toLowerCase() ?? "";
+  // const orderBy = searchParams.get("sort") || "";
+
+  const filteredMovies = moviesData.filter((movie) =>
+    movie.title.toLowerCase().includes(searchQuery),
+  );
+
   return (
     <>
+      {/* <Filter
+        orderBy={orderBy}
+        onOrderChange={(prev) =>
+          setSearchParams({ search: searchQuery, order: prev })
+        }
+      /> */}
+
       <section className={styles.container}>
         <h1 className={styles.numberOfMoviesParagraph}>
           there are {moviesData.length} films to choose from:
         </h1>
+
         <MovieList
-          moviesData={moviesData}
+          moviesData={filteredMovies}
           setSelectedMovie={setSelectedMovie}
         />
       </section>
-
       <WatchlistSelector
         selectedMovie={selectedMovie}
         handleResetMovie={handleResetMovie}

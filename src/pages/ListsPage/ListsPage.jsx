@@ -1,10 +1,15 @@
 import styles from "./ListsPage.module.css";
 
 import ListCard from "../../components/ListCard/ListCard";
-import useWatchlist from "../../context/useWatchlist";
+
+import { useSelector } from "react-redux";
+import { selectWatchlistNames } from "../../store/watchlistSlice";
 
 export default function ListsPage() {
-  const { watchlistNames, watchlists } = useWatchlist();
+  const watchlistNames = useSelector(selectWatchlistNames);
+  const watchlists = useSelector((state) => state.watchlists);
+
+  console.log(" TESTETSETWTSET", watchlists);
 
   return (
     <>
@@ -14,7 +19,7 @@ export default function ListsPage() {
         </h1>
       ) : (
         <h1 className={styles.numberOfWatchlistsParagraph}>
-          you have not saved any watchlist yet
+          you have not saved any watchlists yet
         </h1>
       )}
       <article className={styles.container}>
