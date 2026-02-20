@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
-import useWatchlist from "../../context/useWatchlist";
 import { BookmarkFilled, BookmarkOutline } from "../ui/Boomarks/Bookmarks";
 import styles from "./MovieCard.module.css";
+import { selectMoviesSavedInWatchlists } from "../../store/watchlistSlice";
+import { useSelector } from "react-redux";
 
 export default function MovieCard({ movie, setSelectedMovie }) {
   const { id, title, rating, genre } = movie;
 
-  const { moviesSavedInWatchlists } = useWatchlist();
+  const moviesSavedInWatchlists = useSelector(selectMoviesSavedInWatchlists);
 
   const isSavedInWatchlist = moviesSavedInWatchlists.some(
     (movieInWatchlist) =>
